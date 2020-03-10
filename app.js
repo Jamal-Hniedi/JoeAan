@@ -13,6 +13,7 @@ const AppError = require('./utils/AppError');
 
 const userRouter = require('./routes/userRoutes');
 const mealRouter = require('./routes/mealRoutes');
+const orderRouter = require('./routes/orderRoutes');
 
 const app = express();
 
@@ -37,6 +38,7 @@ app.use(compression());
 
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/meals', mealRouter);
+app.use('/api/v1/orders', orderRouter);
 
 app.all('*', (req, res, next) => {
     next(new AppError(`Cannot find ${req.originalUrl} on this server!`, 404));
