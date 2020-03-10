@@ -1,0 +1,14 @@
+{
+  "user": "5e67b9835a00ed21ac150dc5",
+  "meals": [
+    {
+      "meal": "5e67b9835a00ed31ac150dc1",
+      "quantity": 1
+    },
+    {
+      "meal": "5e67b9835a00ed31ac150dc5",
+      "quantity": 1
+    }
+  ],
+  "amount": 1900
+}

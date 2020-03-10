@@ -1,0 +1,16 @@
+[
+  {
+    "_id": "5e67b9435a00ed31ac150dc5",
+    "username": "admin",
+    "email": "admin@joeaan.com",
+    "password": "test1234",
+    "passwordConfirm": "test1234"
+  },
+  {
+    "_id": "5e67b9835a00ed21ac150dc5",
+    "username": "user",
+    "email": "user@joeaan.com",
+    "password": "test1234",
+    "passwordConfirm": "test1234"
+  }
+]

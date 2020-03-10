@@ -1,0 +1,52 @@
+[
+  {
+    "_id": "5e67b9835a00ed31ac150dc0",
+    "name": "Shawarma",
+    "category": "sandwich",
+    "price": "700",
+    "imageCover": "shawarma.jpg",
+    "description": "Regular shawarma>",
+    "sideItems": [
+      "Chips",
+      "Pickle",
+      "Garlic cream sauce",
+      "Russian salad"
+    ]
+  },
+  {
+    "_id": "5e67b9835a00ed31ac150dc5",
+    "name": "Shawarma extra",
+    "category": "sandwich",
+    "price": "900",
+    "imageCover": "shawarma-extra.jpg",
+    "description": "Shawarma extra>",
+    "sideItems": [
+      "Chips",
+      "Pickle",
+      "Garlic cream sauce",
+      "Russian salad"
+    ]
+  },
+  {
+    "_id": "5e67b9835a00ed31ac150dc1",
+    "name": "Pizza",
+    "category": "meal",
+    "price": "1000",
+    "imageCover": "pizza.jpg",
+    "description": "Pizza>",
+    "sideItems": [
+      "Ketchup"
+    ]
+  },
+  {
+    "_id": "5e67b9835a00ed31ac150dc2",
+    "name": "Pizza-X",
+    "category": "meals",
+    "price": "1500",
+    "imageCover": "pizza.jpg",
+    "description": "Large pizza>",
+    "sideItems": [
+      "Ketchup"
+    ]
+  }
+]
