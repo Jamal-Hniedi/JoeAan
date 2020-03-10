@@ -87,7 +87,7 @@ schema.pre(/^find/, function (next) {
 schema.methods.isPasswordCorrect = async function (candidatePassword, userPassword) {
     return await bcrypt.compare(candidatePassword, userPassword);
 };
-schema.methods.didPasswordChangedAfter = function (JWTTimestamp) {
+schema.methods.passwordChangedAfter = function (JWTTimestamp) {
     if (!this.passwordChangedAt) return false;
     const changedTimestamp = parseInt(this.passwordChangedAt.getTime() / 1000, 10);
     return JWTTimestamp < changedTimestamp;

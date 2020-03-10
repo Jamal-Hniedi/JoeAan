@@ -9,6 +9,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const compression = require('compression');
 const globalErrorHandler = require('./controllers/errorController');
+const AppError = require('./utils/AppError');
 const userRouter = require('./routes/userRoutes');
 
 const app = express();
@@ -34,6 +35,9 @@ app.use(compression());
 
 app.use('/api/v1/users', userRouter);
 
+app.all('*', (req, res, next) => {
+    next(new AppError(`Cannot find ${req.originalUrl} on this server!`, 404));
+});
 
 app.use(globalErrorHandler);
 

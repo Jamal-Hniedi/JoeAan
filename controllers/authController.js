@@ -9,19 +9,19 @@ exports.protect = catchAsync(async (req, res, next) => {
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer'))
         token = req.headers.authorization.split(' ')[1];
     else if (req.cookies.jwt) token = req.cookies.jwt;
-    else return next(new AppError('Please log in to get access!'), 401);
+    else return next(new AppError('Please log in to get access!', 401));
     const decoded = await decodeJWT(token);
     const user = await User.findById(decoded.id);
-    if (!user) return next(new AppError('The user belonging to this token doesn\'t exist any more!'), 401);
-    if (user.didPasswordChangedAfter(decoded.iat))
-        return next(new AppError('Password has been changed recently! Please log in again!'), 401);
+    if (!user) return next(new AppError('The user belonging to this token doesn\'t exist any more!', 401));
+    if (user.passwordChangedAfter(decoded.iat))
+        return next(new AppError('Password has been changed recently! Please log in again!', 401));
     req.user = user;
     next();
 });
 exports.restrictTo = (...roles) => {
     return (req, res, next) => {
         if (!roles.includes(req.user.role))
-            return next(new AppError('You don\'t have permission to perform this action!'));
+            return next(new AppError('You don\'t have permission to perform this action!', 403));
         next();
     };
 };
@@ -30,10 +30,10 @@ exports.restrictTo = (...roles) => {
 exports.login = catchAsync(async (req, res, next) => {
     const {email, password} = req.body;
     if (!email || !password)
-        return next(new AppError('Please provide email and password!'), 400);
+        return next(new AppError('Please provide email and password!', 400));
     const user = await User.findOne({email}).select('+password');
     if (!user || !await user.isPasswordCorrect(password, user.password))
-        return next(new AppError('Incorrect email or password!'), 400);
+        return next(new AppError('Incorrect email or password!', 400));
     createSendToken(user, req, res);
 });
 exports.logout = catchAsync(async (req, res, next) => {
