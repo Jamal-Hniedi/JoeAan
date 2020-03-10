@@ -6,10 +6,10 @@ const router = express.Router();
 
 router.post('/signup', authController.signup);
 router.post('/login', authController.login);
-router.post('/logout', authController.logout);
+router.get('/logout', authController.logout);
 
-router.use(authController.protect);
-router.use(authController.restrictTo('admin'));
+router.use(authController.protect,
+    authController.restrictTo('admin'));
 
 router.route('/')
     .get(controller.getAllUsers)

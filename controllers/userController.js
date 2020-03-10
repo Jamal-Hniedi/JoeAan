@@ -1,4 +1,4 @@
-const factory = require('../controllers/handlerFactory');
+const factory = require('./handlerFactory');
 const User = require('../models/userModel');
 
 exports.getAllUsers = factory.getAll(User);

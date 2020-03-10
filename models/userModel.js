@@ -5,13 +5,14 @@ const bcrypt = require('bcryptjs');
 const schema = new mongoose.Schema({
         username: {
             type: String,
+            unique: [true, 'Username is taken! Please choose another one!'],
             required: [true, 'User must have a username'],
             trim: true
         },
         photo: String,
         email: {
             type: String,
-            unique: true,
+            unique: [true, 'There\'s already a user with this email!'],
             required: [true, 'User must have an email!'],
             trim: true,
             validate: {
@@ -26,11 +27,6 @@ const schema = new mongoose.Schema({
                 message: 'Role is either user or admin!'
             },
             default: 'user'
-        },
-        active: {
-            type: Boolean,
-            default: true,
-            select: false
         },
         password: {
             type: String,
@@ -50,7 +46,12 @@ const schema = new mongoose.Schema({
         },
         passwordChangedAt: Date,
         passwordResetToken: String,
-        passwordResetExpires: Date
+        passwordResetExpires: Date,
+        active: {
+            type: Boolean,
+            default: true,
+            select: false
+        }
     }
 );
 

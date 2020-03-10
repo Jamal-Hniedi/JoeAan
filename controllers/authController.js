@@ -18,6 +18,7 @@ exports.protect = catchAsync(async (req, res, next) => {
     req.user = user;
     next();
 });
+
 exports.restrictTo = (...roles) => {
     return (req, res, next) => {
         if (!roles.includes(req.user.role))
@@ -25,7 +26,6 @@ exports.restrictTo = (...roles) => {
         next();
     };
 };
-
 
 exports.login = catchAsync(async (req, res, next) => {
     const {email, password} = req.body;
@@ -38,7 +38,7 @@ exports.login = catchAsync(async (req, res, next) => {
 });
 exports.logout = catchAsync(async (req, res, next) => {
     res.cookie('jwt', 'Logged out', {
-        expires: Date.now(),
+        expires: new Date(Date.now()),
         httpOnly: true
     });
     res.status(200)
@@ -66,7 +66,7 @@ const createJWT = id => {
 };
 
 const cookieOptions = {
-    expires: Date.now() + process.env.JWT_EXPIRES_IN * 24 * 60 * 60 * 1000,
+    expires: new Date(Date.now() + process.env.JWT_EXPIRES_IN * 24 * 60 * 60 * 1000),
     httpOnly: true
 };
 const createSendToken = (user, req, res) => {
