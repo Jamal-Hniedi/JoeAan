@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Meal = require('./mealModel');
 
 const schema = new mongoose.Schema({
     user: {
@@ -25,8 +26,17 @@ const schema = new mongoose.Schema({
         default: Date.now()
     },
     amount: {
-        type: Number,
-        required: [true, 'Order must have total amount!']
+        type: Number
+    },
+    location: {
+        type: {
+            type: String,
+            enum: ['Point'],
+            default: 'Point'
+        },
+        coordinates: [Number],
+        address: String,
+        description: String
     }
 });
 
@@ -39,6 +49,17 @@ schema.pre(/^find/, function (next) {
             path: 'meals.meal',
             select: 'name price'
         });
+    next();
+});
+
+schema.pre('save', async function (next) {
+    const mealIds = this.meals.map(value => value.meal);
+    const qs = this.meals.map(value => value.quantity);
+    this.amount = 0;
+    for (let i = 0; i < mealIds.length; i++) {
+        const {price} = await Meal.findById(mealIds[i]);
+        this.amount += price * qs[i];
+    }
     next();
 });
 

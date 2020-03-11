@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const slugify = require('slugify');
 
 const schema = new mongoose.Schema({
         category: {
@@ -10,6 +11,7 @@ const schema = new mongoose.Schema({
             required: [true, 'Meal must have a name!'],
             trim: true
         },
+        slug: String,
         price: {
             type: Number,
             required: [true, 'Meal must have a price!']
@@ -27,11 +29,11 @@ const schema = new mongoose.Schema({
         ratingsAverage: {
             type: Number,
             default: 0,
-            min: [0, 'Rating must be above 0'],
+            min: [1, 'Rating must be above 1'],
             max: [5, 'Rating must be below 5'],
             set: value => Math.round(value * 10) / 10
         },
-        ratingsCount: {
+        ratingsQuantity: {
             type: Number,
             default: 0,
             min: [0, 'Rating count must be above 0']
@@ -41,8 +43,26 @@ const schema = new mongoose.Schema({
             type: Boolean,
             default: true
         }
+    },
+    {
+        toJSON: {virtuals: true},
+        toObject: {virtuals: true}
     }
 );
+
+schema.index({slug: 1});
+schema.index({location: '2dsphere'});
+
+schema.virtual('reviews', {
+    ref: 'Review',
+    foreignField: 'meal',
+    localField: '_id'
+});
+
+schema.pre('save', function (next) {
+    this.slug = slugify(this.name, {lower: true});
+    next();
+});
 
 schema.pre(/\b(find|findOne)\b/, function (next) {
     this.find({available: true});

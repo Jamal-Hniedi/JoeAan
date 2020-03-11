@@ -12,7 +12,7 @@ exports.protect = catchAsync(async (req, res, next) => {
     else return next(new AppError('Please log in to get access!', 401));
     const decoded = await decodeJWT(token);
     const user = await User.findById(decoded.id);
-    if (!user) return next(new AppError('The user belonging to this token doesn\'t exist any more!', 401));
+    if (!user) return next(new AppError('The user belonging to this token doesn\'t exist!', 401));
     if (user.passwordChangedAfter(decoded.iat))
         return next(new AppError('Password has been changed recently! Please log in again!', 401));
     req.user = user;

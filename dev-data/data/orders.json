@@ -10,5 +10,10 @@
       "quantity": 1
     }
   ],
-  "amount": 1900
+  "location": {
+    "coordinates": [
+      36.204965,
+      37.132506
+    ]
+  }
 }

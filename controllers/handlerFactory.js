@@ -3,7 +3,7 @@ const AppError = require('../utils/AppError');
 
 exports.getAll = Model =>
     catchAsync(async (req, res, next) => {
-        const docs = await Model.find();
+        const docs = await Model.find(req.filter);
         res.status(200)
             .json({
                 status: 'success',
@@ -16,7 +16,9 @@ exports.getAll = Model =>
 
 exports.getOneById = Model =>
     catchAsync(async (req, res, next) => {
-        const doc = await Model.findById(req.params.id);
+        let query = Model.findById(req.params.id);
+        if (req.populateOptions) query = query.populate(req.populateOptions);
+        const doc = await query;
         if (!doc) return next(new AppError('No document found with that id!'), 404);
         res.status(200)
             .json({

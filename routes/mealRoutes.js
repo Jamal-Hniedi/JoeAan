@@ -1,9 +1,14 @@
 const express = require('express');
+
 const controller = require('../controllers/mealController');
 const authController = require('../controllers/authController');
 
+const reviewRouter = require('../routes/reviewRoutes');
+
+
 const router = express.Router();
 
+router.use('/:mealId/reviews', reviewRouter);
 
 router.route('/')
     .get(controller.getAllMeals)
@@ -12,7 +17,8 @@ router.route('/')
         controller.createMeal);
 
 router.route('/:id')
-    .get(controller.getMeal)
+    .get(controller.populateReviews,
+        controller.getMeal)
     .patch(authController.protect,
         authController.restrictTo('admin'),
         controller.updateMeal)

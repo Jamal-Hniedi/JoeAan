@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node server.js",
-    "start:dev": "nodemon server.js -q"
+    "start:dev": "nodemon server.js -q",
+    "debug": "ndb server.js"
   },
   "dependencies": {
     "@babel/polyfill": "^7.8.7",
